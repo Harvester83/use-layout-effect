@@ -1,17 +1,46 @@
-import { useState, useLayoutEffect, useEffect } from "react";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
 
-function App() {
-  const [value, setValue] = useState(0);
-
-  useLayoutEffect(() => {
-    if (value === 0) {
-      setValue(Math.random() * 99 + 99);
-    }
-  }, [value]);
-
-  console.log("render", value);
-  return <div onClick={() => setValue(0)}>value: {value}</div>;
+interface TimerProps {
+  initialSeconds: number;
 }
+
+const Timer: React.FC<TimerProps> = ({ initialSeconds }) => {
+  const [seconds, setSeconds] = useState(initialSeconds);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds(prevSeconds => prevSeconds + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h2>Таймер</h2>
+      <p>Прошло времени: {seconds} секунд</p>
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  const [showTimer, setShowTimer] = useState(true);
+
+  const toggleTimer = () => {
+    setShowTimer(prevShowTimer => !prevShowTimer);
+  };
+
+  return (
+    <div>
+      <button onClick={toggleTimer}>
+        {showTimer ? 'Скрыть таймер' : 'Показать таймер'}
+      </button>
+
+      {showTimer && <Timer initialSeconds={0} />}
+    </div>
+  );
+};
 
 export default App;
