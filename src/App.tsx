@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Name } from "./Name";
 
 interface TimerProps {
   initialSeconds: number;
@@ -21,6 +22,7 @@ const Timer: React.FC<TimerProps> = ({ initialSeconds }) => {
     <div>
       <h2>Таймер</h2>
       <p>Прошло времени: {seconds} секунд</p>
+      <Name name={`Rahsad`}/>
     </div>
   );
 };
